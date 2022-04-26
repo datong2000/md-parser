@@ -1,0 +1,19 @@
+{
+  "name": "md-parser",
+  "version": "1.0.0",
+  "description": "以编译原理的形式解析md格式文本，再进行重组，最终转换为html",
+  "main": "build/index.js",
+  "scripts": {
+    "dev": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datong2000/md-parser.git"
+  },
+  "author": "datong <2829099680@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/datong2000/md-parser/issues"
+  },
+  "homepage": "https://github.com/datong2000/md-parser#readme"
+}
