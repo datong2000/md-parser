@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/datong2000/md-parser/issues"
   },
-  "homepage": "https://github.com/datong2000/md-parser#readme"
+  "homepage": "https://github.com/datong2000/md-parser#readme",
+  "dependencies": {
+    "@types/node": "^17.0.34"
+  }
 }
