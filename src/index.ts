@@ -1,83 +1,4 @@
-
-// interface codeFn {
-//     [key: string]: Function
-// }
-
-// let md: string = '>>> ####  >   > 1 >>>>>dddd'.replace(/\s*/g, "");
-// let html: string = '';
-
-// let state = {
-//     lock: true,
-//     titleLock: true
-// }
-
-// let identifier = ['#', '>', '-', '+']
-
-// let codeFn: codeFn = {
-//     '>': (idx: number) => {
-//         if (state.lock) {
-//             let exportHtml = () => {
-//                 state.lock = false;
-//                 html = '';
-//                 return `<code class="c-${str.length}"></code> `;
-//             }
-//             let str = '';
-//             for (let j = 0; j < idx; j++) {
-//                 if (md[j] === '>') {
-//                     str += md[j];
-//                     if (md[j + 1] !== '>') return exportHtml()
-//                 } else return exportHtml()
-//             }
-//         }
-//     },
-//     '#': (idx: number) => {
-//         if (state.titleLock) {
-//             let exportHtml = () => {
-//                 state.titleLock = false;
-//                 return titleCount > 6 ? undefined : `<pre class="d-${titleCount}"></pre>`
-//             }
-//             let titleCount = 0
-//             for (let j = 0; j < idx; j++) {
-//                 if (identifier.includes(md[j])) {
-//                     if (md[j] === '#') ++titleCount;
-//                     if (titleCount !== 0 && md[j + 1] !== '#') return exportHtml()
-//                 } else return exportHtml()
-//             }
-//         }
-//     },
-//     '-': () => {
-//         // console.log(v);
-//     },
-//     '+': () => {
-//         // console.log(v);
-//     },
-//     '*': () => {
-//         // console.log(v);
-//     },
-//     '`': () => {
-//         // console.log(v);
-//     }
-// }
-
-// function getToken(v: string, idx: number) {
-//     let code = codeFn[v]?.(idx)
-//     if (code) html += code;
-//     else html += v;
-// }
-
-// function init(md: string) {
-//     for (let i = 0; i < md.length; i++) {
-//         getToken(md.charAt(i), i + 1)
-//     }
-// }
-
-// init(md)
-
-// console.log(html);
-
 /**
- * e = expression
- * 
  * 字母表中后面的小写字母表示终结符号串(包括空串)
  * 
  * 字母表中后面的大写字母表示文法符号(非终结符/终结符)
@@ -125,15 +46,14 @@ function getDeep(target: object) {
 let Content, keyWords, Tag, Start;
 let lineKeys = ['*', '~', '^', '`', '#'];
 let startKeys = ['>', '-', '+', '*'];
-let continuityKeys = ['---', '===', '***', '```'];
-let codeCount = {
-    italicsAndStrong: 0,
-    subAndDelete: 0,
-    sup: 0,
-    code: 0,
-    title: 0
-}
-let html = '';
+// let continuityKeys = ['---', '===', '***', '```'];
+// let codeCount = {
+//     italicsAndStrong: 0,
+//     subAndDelete: 0,
+//     sup: 0,
+//     code: 0,
+//     title: 0
+// }
 
 Content = {
     content: ""
@@ -143,33 +63,25 @@ keyWords = {
     content: "",
     Content: getDeep(Content),
     keys: [],
-    index: 0,
-    check(v, index) {
+    check(v) {
         this.keys.push(v);
         this.Content = getDeep(Content);
-        let flag = index - this.index == 1 ? true : false;
-        this.index = index;
-        switch (v) {
-            case '*': (() => {
-                if (flag) ++codeCount.italicsAndStrong;
-                else codeCount.italicsAndStrong <= 0 ? codeCount.italicsAndStrong = 0 : --codeCount.italicsAndStrong;
-            })(); break;
-        }
-        console.log(this.index, flag, codeCount.italicsAndStrong);
-        // html += this.Content 
+        // switch (v) {
+        //     case '*': (() => {
+        //     })(); break;
+        // }
     }
 }
 
 Tag = {
     content: "",
-    A: getDeep(keyWords)
+    keyWords: getDeep(keyWords)
 };
 
 Start = {
     content: "",
     Tags: [getDeep(Tag)]
 };
-
 
 let toHtml = (md: MD) => {
     md.forEach((line, currentLineCount) => {
@@ -178,7 +90,6 @@ let toHtml = (md: MD) => {
         let firstFlag = false;
         let firstKey = null;
         if (startKeys.includes(lineTrim[0])) firstKey = lineTrim[0]
-
         let lineCount = 0;
         let lineFlag = false;
         for (let i = 0; i < line.length; i++) {
@@ -200,14 +111,9 @@ let toHtml = (md: MD) => {
     })
     // console.log(Start, '151');
     // console.log(Tag);
-    console.log(keyWords);
-    console.log(Content);
+    // console.log(keyWords);
+    // console.log(Content);
 }
-
-
-
-
-
 
 const fs = require('fs');
 const readline = require('readline');
