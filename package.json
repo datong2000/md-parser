@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "以编译原理的形式解析md格式文本，再进行重组，最终转换为html",
   "main": "build/index.js",
+  "type":"module",
   "scripts": {
     "dev": "tsc --watch"
   },

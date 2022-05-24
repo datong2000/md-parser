@@ -1,44 +1,49 @@
-"use strict";
+import { readFileToArr } from './readFile.js';
 function getDeep(target) {
     let o = {};
     for (let item in target) {
         o[item] = target[item];
     }
-    return o;
+    return target ? o : undefined;
 }
-let Content, keyWords, Tag, Start;
-let lineKeys = ['*', '~', '^', '`', '#'];
+function initProperties(target) {
+    return {
+        nodeName: "",
+        content: "",
+        children: [getDeep(target)]
+    };
+}
+let Content, keyWord, Tag, Start;
+Content = initProperties();
+keyWord = initProperties(Content);
+Tag = initProperties(keyWord);
+Start = initProperties(Tag);
+let lineKeys = ['*', '~', '^'];
+let aa = ['`', '#'];
 let startKeys = ['>', '-', '+', '*'];
-Content = {
-    content: ""
+let continuityKeys = ['---', '===', '***', '```'];
+let codeCount = {
+    italicsAndStrong: 0,
+    subAndDelete: 0,
+    sup: 0,
+    code: 0,
+    title: 0
 };
-keyWords = {
-    content: "",
-    Content: getDeep(Content),
-    keys: [],
-    check(v) {
-        this.keys.push(v);
-        this.Content = getDeep(Content);
-    }
-};
-Tag = {
-    content: "",
-    keyWords: getDeep(keyWords)
-};
-Start = {
-    content: "",
-    Tags: [getDeep(Tag)]
-};
+function lineRules(v) {
+    Content = getDeep(Content);
+}
+let firstKeyCount, lineTrim, firstFlag, firstKey;
+let lineCount, lineFlag;
 let toHtml = (md) => {
-    md.forEach((line, currentLineCount) => {
-        let lineTrim = line.trim();
-        let firstKeyCount = 0;
-        let firstFlag = false;
-        let firstKey = null;
+    md.forEach((line) => {
+        lineTrim = line.trim();
+        firstKeyCount = 0;
+        firstFlag = false;
+        firstKey = null;
         if (startKeys.includes(lineTrim[0]))
             firstKey = lineTrim[0];
-        let lineCount = 0;
-        let lineFlag = false;
+        lineCount = 0;
+        lineFlag = false;
         for (let i = 0; i < line.length; i++) {
             if (firstKey && !firstFlag && (firstKey === line[i] || firstKey === ' '))
                 ++firstKeyCount;
@@ -51,26 +56,12 @@ let toHtml = (md) => {
             if (lineCount > 3)
                 firstKeyCount = 0;
             if (lineKeys.includes(line[i]))
-                keyWords.check(line[i], i);
+                lineRules(line[i]);
             else
                 Content.content += line[i];
         }
     });
 };
-const fs = require('fs');
-const readline = require('readline');
-function readFileToArr(fsReadName, callback) {
-    let md = [];
-    let readObj = readline.createInterface({
-        input: fs.createReadStream(fsReadName),
-    });
-    readObj.on('line', (line) => {
-        md.push(line);
-    });
-    readObj.on('close', () => {
-        callback(md);
-    });
-}
-readFileToArr('README.md', (md) => {
+readFileToArr('record.md', (md) => {
     toHtml(md);
 });
