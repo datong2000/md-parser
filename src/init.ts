@@ -1,0 +1,27 @@
+export const init = {
+    h1: "h1",
+    h2: "h2",
+    h3: "h3",
+    h4: "h4",
+    h5: "h5",
+    h6: "h6",
+    hr: "hr",
+    pre: "pre",
+    p: "p",
+    div: "div",
+    ul: "ul",
+    ol: "ol",
+    li: "li",
+    table: "table",
+    blockquote: "blockquote",
+
+    span: "span",
+    strong: "strong",
+    i: "i",
+    code: "code",
+    img: "img",
+    a: "a",
+    sub: "sub",
+    sup: "sup",
+    del: "del"
+}
